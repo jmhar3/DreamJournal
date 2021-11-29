@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-    skip_before_action :authorized, only: [:login]
+    skip_before_action :authorized, only: [:login, :fb_login]
     
     def login
         user = User.find_by(email: params[:email])
@@ -10,4 +10,24 @@ class SessionsController < ApplicationController
           render json: user.errors, status: :unauthorized
         end
     end
+
+    def fb_login
+        user = User.find_or_create_by(email: auth['info']['email']) do |u|
+            u.name = auth['info']['name']
+            u.image = auth['info']['image']
+            u.password = auth['token']
+        end
+        token = encode_token({user_id: user.id})
+        render json: {token: token}, status: :created
+    end
+
+    private
+
+    def auth
+        request.env["omniauth.auth"]
+      end
+    
+      def session_params
+        params.permit(:email, :password)
+      end
 end
