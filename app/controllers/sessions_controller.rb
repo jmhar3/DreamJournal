@@ -4,6 +4,7 @@ class SessionsController < ApplicationController
     def login
         user = User.find_by(email: params[:email])
         if user.authenticate(params[:password])
+            on_complete user
             token = encode_token({user_id: user.id})
             render json: {token: token}, status: :created
         else
@@ -17,17 +18,26 @@ class SessionsController < ApplicationController
             u.image = auth['info']['image']
             u.password = auth['token']
         end
+        on_complete user
         token = encode_token({user_id: user.id})
         render json: {token: token}, status: :created
+    end
+
+    def destroy
+        session[:user_id] = nil
     end
 
     private
 
     def auth
         request.env["omniauth.auth"]
-      end
+    end
+
+    def on_complete user
+        session[:user_id] = user.id
+    end
     
-      def session_params
+    def session_params
         params.permit(:email, :password)
-      end
+    end
 end

@@ -1,5 +1,10 @@
 class ApplicationController < ActionController::API
     before_action :authorized
+    before_action :current_user
+
+  def current_user
+    Current.user = User.find(session[:user_id]) if session[:user_id]
+  end
 
     def encode_token(payload)
         JWT.encode(payload, Rails.application.credentials.secret_key_base)
@@ -23,6 +28,7 @@ class ApplicationController < ActionController::API
     end
 
     def current_user
+        p decoded_token
         if decoded_token
         user_id = decoded_token[0]['user_id']
         @user = User.find_by(id: user_id)
