@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_26_001151) do
+ActiveRecord::Schema.define(version: 2021_11_30_011443) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,12 +42,12 @@ ActiveRecord::Schema.define(version: 2021_11_26_001151) do
   end
 
   create_table "notes_categories", force: :cascade do |t|
-    t.bigint "notes_id", null: false
-    t.bigint "categories_id", null: false
+    t.bigint "note_id", null: false
+    t.bigint "category_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["categories_id"], name: "index_notes_categories_on_categories_id"
-    t.index ["notes_id"], name: "index_notes_categories_on_notes_id"
+    t.index ["category_id"], name: "index_notes_categories_on_category_id"
+    t.index ["note_id"], name: "index_notes_categories_on_note_id"
   end
 
   create_table "transactions", force: :cascade do |t|
@@ -71,7 +71,7 @@ ActiveRecord::Schema.define(version: 2021_11_26_001151) do
 
   add_foreign_key "categories", "users"
   add_foreign_key "notes", "users"
-  add_foreign_key "notes_categories", "categories", column: "categories_id"
-  add_foreign_key "notes_categories", "notes", column: "notes_id"
+  add_foreign_key "notes_categories", "categories"
+  add_foreign_key "notes_categories", "notes"
   add_foreign_key "transactions", "users"
 end

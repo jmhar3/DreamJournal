@@ -1,4 +1,4 @@
 class NotesCategory < ApplicationRecord
-  belongs_to :notes
-  belongs_to :categories
+  belongs_to :note
+  belongs_to :category
 end
