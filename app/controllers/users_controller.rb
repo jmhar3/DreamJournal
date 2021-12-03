@@ -6,7 +6,7 @@ class UsersController < ApplicationController
       user = User.create(user_params)
       user.image = params[:image]
       if user.valid?
-        token = encode_token({user_id: user.id})
+        token = encode_token({user_id: user.id, user_name: user.name})
         render json: {token: token}, status: :created
       else
         render json: user.errors, status: :not_acceptable

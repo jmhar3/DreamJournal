@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
         user = User.find_by(email: params[:email])
         if user.authenticate(params[:password])
             on_complete user
-            token = encode_token({user_id: user.id})
+            token = encode_token({user_id: user.id, user_name: user.name})
             render json: {token: token}, status: :created
         else
           render json: user.errors, status: :unauthorized
