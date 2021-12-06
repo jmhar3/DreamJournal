@@ -23,7 +23,7 @@ class SessionsController < ApplicationController
         render json: {token: token}, status: :created
     end
 
-    def destroy
+    def logout
         session[:user_id] = nil
     end
 
