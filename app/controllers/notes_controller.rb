@@ -16,8 +16,7 @@ class NotesController < ApplicationController
   # POST /notes
   def create
     @note = current_user.notes.build(note_params)
-
-    if @note.save
+    if @note.save!
       render json: @note, status: :created, location: @note
     else
       render json: @note.errors, status: :unprocessable_entity
@@ -46,6 +45,6 @@ class NotesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def note_params
-      params.require(:note).permit(:title, :content, :pinned)
+      params.require(:note).permit(:user_id, :title, :content, :pinned, categories_attributes: [])
     end
 end

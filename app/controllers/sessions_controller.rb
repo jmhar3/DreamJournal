@@ -15,15 +15,15 @@ class SessionsController < ApplicationController
     def fb_login
         user = User.find_or_create_by(email: auth['info']['email']) do |u|
             u.name = auth['info']['name']
-            u.image = auth['info']['image']
             u.password = auth['token']
         end
         on_complete user
-        token = encode_token({user_id: user.id})
+        token = encode_token({user_id: user.id, user_name: user.name})
         render json: {token: token}, status: :created
     end
 
     def logout
+        p session.inspect
         session[:user_id] = nil
     end
 

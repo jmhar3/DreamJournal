@@ -43,3 +43,4 @@ gem 'jwt'
 gem 'omniauth'
 gem "omniauth-facebook"
 gem "omniauth-rails_csrf_protection"
+gem 'active_model_serializers'
