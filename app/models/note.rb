@@ -2,7 +2,6 @@ class Note < ApplicationRecord
     has_many :notes_categories
     has_many :categories, through: :notes_categories
     belongs_to :user
-    # accepts_nested_attributes_for :categories
 
     validates :content, presence: true
 
