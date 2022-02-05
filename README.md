@@ -1,24 +1,7 @@
-# README
+# DreamJournal
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A daily journal to track all your wants and needs. So far you are able to track your goals, finances and notes with plans for wellness, friends + gamification.
 
-Things you may want to cover:
+Back End - featuring Ruby, Rails, PostgreSQL
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Front End - https://github.com/jmhar3/DreamJournal_app/tree/master
