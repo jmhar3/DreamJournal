@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_08_013528) do
+ActiveRecord::Schema.define(version: 2021_11_26_001151) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,11 +27,20 @@ ActiveRecord::Schema.define(version: 2021_12_08_013528) do
     t.string "label"
     t.string "priority"
     t.string "due_date"
+    t.boolean "completed"
+    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "user_id"
-    t.boolean "completed"
     t.index ["user_id"], name: "index_goals_on_user_id"
+  end
+
+  create_table "note_categories", force: :cascade do |t|
+    t.bigint "note_id", null: false
+    t.bigint "category_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["category_id"], name: "index_note_categories_on_category_id"
+    t.index ["note_id"], name: "index_note_categories_on_note_id"
   end
 
   create_table "notes", force: :cascade do |t|
@@ -44,23 +53,14 @@ ActiveRecord::Schema.define(version: 2021_12_08_013528) do
     t.index ["user_id"], name: "index_notes_on_user_id"
   end
 
-  create_table "notes_categories", force: :cascade do |t|
-    t.bigint "note_id", null: false
-    t.bigint "category_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["category_id"], name: "index_notes_categories_on_category_id"
-    t.index ["note_id"], name: "index_notes_categories_on_note_id"
-  end
-
   create_table "transactions", force: :cascade do |t|
     t.decimal "amount", precision: 20, scale: 2
     t.string "direction"
     t.string "category"
+    t.string "description"
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "description"
     t.index ["user_id"], name: "index_transactions_on_user_id"
   end
 
@@ -73,8 +73,9 @@ ActiveRecord::Schema.define(version: 2021_12_08_013528) do
   end
 
   add_foreign_key "categories", "users"
+  add_foreign_key "goals", "users"
+  add_foreign_key "note_categories", "categories"
+  add_foreign_key "note_categories", "notes"
   add_foreign_key "notes", "users"
-  add_foreign_key "notes_categories", "categories"
-  add_foreign_key "notes_categories", "notes"
   add_foreign_key "transactions", "users"
 end
